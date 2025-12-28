@@ -13,36 +13,29 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-export default function Register() {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [displayName, setDisplayName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
-  const handleSignUp = async () => {
-    if (!email || !password || !displayName) {
-      alert("All fields are required");
-      return;
-    }
-
+  const handleLogin = async () => {
     setIsLoading(true);
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
-      options: {
-        data: {
-          display_name: displayName,
-          avatar_url: `https://api.dicebear.com/7.x/avataaars/svg?seed=${displayName}`, // Default avatar
-        },
-      },
     });
 
     if (error) {
+      console.log("error");
       alert(error.message);
     } else {
-      alert("Check your email for a confirmation link!");
+      console.log("success");
+      router.push("/");
+      router.refresh(); // Ensure middleware and UI update
     }
     setIsLoading(false);
   };
@@ -51,22 +44,12 @@ export default function Register() {
     <div className="flex min-h-screen items-center justify-center p-4 bg-stone-50 w-full">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
+          <CardTitle className="text-2xl font-bold">Login</CardTitle>
           <CardDescription>
-            Enter your details below to create your account
+            Enter your email and password to access your tasks
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="displayName">Display Name</Label>
-            <Input
-              id="displayName"
-              placeholder="John Doe"
-              value={displayName}
-              onChange={(e) => setDisplayName(e.target.value)}
-              required
-            />
-          </div>
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -90,16 +73,14 @@ export default function Register() {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
-          <Button 
-            className="w-full" 
-            onClick={handleSignUp} 
-            disabled={isLoading}
-          >
-            {isLoading ? "Creating account..." : "Register"}
+          <Button className="w-full" onClick={handleLogin} disabled={isLoading}>
+            {isLoading ? "Logging in..." : "Login"}
           </Button>
           <p className="text-sm text-center text-muted-foreground">
-            Already have an account?{" "}
-            <Link href="/login" className="text-primary underline">Login</Link>
+            Don't have an account?{" "}
+            <Link href="/register" className="text-primary underline">
+              Register
+            </Link>
           </p>
         </CardFooter>
       </Card>
