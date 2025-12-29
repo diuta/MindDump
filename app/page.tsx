@@ -1,6 +1,5 @@
 "use client";
 
-import { TaskCard } from "@/components/TaskCard";
 import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
 
@@ -28,8 +27,11 @@ export default function Home() {
   if (!user) return null;
 
   return (
-    <div className="flex min-h-screen flex-col items-center p-10 space-y-4 bg-stone-50">
-      <div className="flex justify-center flex-row gap-2">
+    <div
+      className="flex flex-col gap-4 min-h-screen min-w-fit p-10 bg-stone-50"
+      id="pagewrapper"
+    >
+      <div className="flex justify-center flex-row gap-2" id="header">
         <div className="text-2xl">Welcome</div>
         <div className="text-2xl font-bold">
           {user.user_metadata?.display_name}
