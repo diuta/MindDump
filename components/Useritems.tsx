@@ -10,13 +10,17 @@ export default function Useritems() {
   useEffect(() => {
     // Get initial user
     const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       setUser(user);
     };
     getUser();
 
     // Listen for changes (Login/Logout)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
 
@@ -26,19 +30,17 @@ export default function Useritems() {
   if (!user) return null;
 
   const displayName = user.user_metadata?.display_name || user.email;
-  const avatarUrl = user.user_metadata?.avatar_url;
   const initials = displayName?.substring(0, 2).toUpperCase() || "??";
 
   return (
     <div className="flex items-center gap-4 border rounded-[10px] p-4 border-solid border-neutral-800">
-      <Avatar className="h-10 w-10 border border-neutral-700">
-        <AvatarImage src={avatarUrl} alt={displayName} />
-        <AvatarFallback className="bg-neutral-700 text-white font-bold">
-          {initials}
-        </AvatarFallback>
-      </Avatar>
+      <div className="avatar flex h-10 w-10 border border-neutral-700 justify-center items-center rounded-3xl bg-neutral-600 font-bold">
+        {initials}
+      </div>
       <div className="overflow-hidden">
-        <div className="text-sm font-medium truncate text-white">{displayName}</div>
+        <div className="text-sm font-medium truncate text-white">
+          {displayName}
+        </div>
         <div className="text-xs text-neutral-400 truncate">{user.email}</div>
       </div>
     </div>

@@ -34,7 +34,6 @@ export default function Register() {
       options: {
         data: {
           display_name: displayName,
-          avatar_url: `https://api.dicebear.com/7.x/avataaars/svg?seed=${displayName}`, // Default avatar
         },
       },
     });

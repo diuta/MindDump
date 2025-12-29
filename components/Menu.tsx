@@ -1,13 +1,28 @@
+import { useRouter } from "next/navigation";
 import React from "react";
 
 export default function Menu() {
+  const router = useRouter();
+
   return (
     <div className="flex flex-col gap-4 grow">
-      <div className="rounded-[7px] p-2 hover:bg-neutral-700 transition duration-500 hover:cursor-pointer">
-        Home
+      <div
+        onClick={() => router.push("/")}
+        className="rounded-[7px] p-2 hover:bg-neutral-700 transition duration-500 hover:cursor-pointer"
+      >
+        Dashboard
       </div>
-      <div className="rounded-[7px] p-2 hover:bg-neutral-700 transition duration-500 hover:cursor-pointer">
-        Settings
+      <div
+        onClick={() => router.push("task-list")}
+        className="rounded-[7px] p-2 hover:bg-neutral-700 transition duration-500 hover:cursor-pointer "
+      >
+        Task List
+      </div>
+      <div
+        onClick={() => router.push("spending-list")}
+        className="rounded-[7px] p-2 hover:bg-neutral-700 transition duration-500 hover:cursor-pointer"
+      >
+        Spending List
       </div>
     </div>
   );
